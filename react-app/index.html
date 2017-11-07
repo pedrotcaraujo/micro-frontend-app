@@ -8,10 +8,22 @@
 </head>
 <body>
     <div id="root"></div>
+    <react-web-component name="React web component"></react-web-component>
+
     <script src="https://unpkg.com/react/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
     <script>
-        ReactDOM.render(React.createElement('h1', null, 'Hello React') ,document.getElementById('root'));
+        ReactDOM.render(React.createElement('h1', null, 'Hello React'), document.getElementById('root'));
+        class ReactWebComponent extends HTMLElement {
+            connectedCallback() {
+                const mountPoint = document.createElement('h2');
+                this.attachShadow({ mode: 'open' }).appendChild(mountPoint);
+
+                const name = this.getAttribute('name');
+                ReactDOM.render(React.createElement('span',{ onClick: () => { console.log('cliked')} }, name), mountPoint);
+            }
+        }
+        customElements.define('react-web-component', ReactWebComponent);
     </script>   
 </body>
 </html>
